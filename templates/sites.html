@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="{{ url_for('index') }}">&lt Home</a>
+    <form action="{{ url_for('delete_sites') }}" method='post' id='site_form'>
+        <table>
+            <thead>
+                <tr>
+                    <th>CID</th>
+                    <th>Address</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site in sites %}
+                <tr>
+                    <td>{{ site.sid }}</td>
+                    <td>{{ site.address }}</td>
+                    <td align='center'><input type='checkbox' name='delete_{{ site.sid }}'></td>
+                    <td><a href="{{ url_for('site', sid=site.sid) }}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <td></td>
+                <td></td>
+                <td align='center'>
+                    <button class='delete' type='submit' form='site_form'>Delete Selected</button>
+                </td>
+            </tfoot>
+        </table>
+    </form>
+    <a href="{{ url_for('site', sid='new') }}">Add New</a>
+</div>
+{% endblock %}

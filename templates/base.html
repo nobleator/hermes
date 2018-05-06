@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hermes</title>
+    <link rel='stylesheet' type='text/css' href="{{ url_for('static',filename='styles/style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <input id='menuToggle' type="checkbox"/>
+        <label for='menuToggle'>
+            <div id='hamburger'>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </label>
+        <ul id='menu'>
+            <a href="{{ url_for('index') }}"><li>Home</li></a>
+            <a href="{{ url_for('orders') }}"><li>Orders</li></a>
+            <a href="{{ url_for('clients') }}"><li>Clients</li></a>
+            <a href="{{ url_for('sites') }}"><li>Sites</li></a>
+        </ul>
+        <div id='logo'><img src="{{ url_for('static',filename='images/hermes_logo.png') }}"></div>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

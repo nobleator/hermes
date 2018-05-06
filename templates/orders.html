@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="{{ url_for('index') }}">&lt Home</a>
+    <form action="{{ url_for('delete_orders') }}" method='post' id='order_form'>
+        <table>
+            <thead>
+                <tr>
+                    <th>OID</th>
+                    <th>Client</th>
+                    <th>Site</th>
+                    <th>Due</th>
+                    <th>Status</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.oid }}</td>
+                    <td>{{ order.client }}</td>
+                    <td>{{ order.site }}</td>
+                    <td>{{ order.due }}</td>
+                    <td>{{ order.status }}</td>
+                    <td align='center'><input type='checkbox' name='delete_{{ order.oid }}'></td>
+                    <td><a href="{{ url_for('order', oid=order.oid) }}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td align='center'>
+                    <button class='delete' type='submit' form='order_form'>Delete Selected</button>
+                </td>
+            </tfoot>
+        </table>
+    </form>
+    <a href="{{ url_for('order', oid='new') }}">Add New</a>
+</div>
+{% endblock %}

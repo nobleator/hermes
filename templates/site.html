@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="{{ url_for('sites') }}">&lt Back</a>
+    <form action="{{ url_for('site', sid=site.sid) }}" method='post'>
+        <div class='input-row'>
+            <label for='sid'>SID</label>
+            <input id='sid' name='sid' type='text' value='{{ site.sid }}' readonly='readonly' required='required'>
+        </div>
+        
+        <div class='input-row'>
+            <label for='address'>Address</label>
+            <input id='address' name='address' type='text' value='{{ site.address }}' required='required'>
+        </div>
+        
+        <div class='input-row'>
+            <input type='submit' value='Done'>
+        </div>
+    </form>
+</div>
+{% endblock %}

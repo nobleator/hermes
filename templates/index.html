@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <div>
+        <div class='input-row'><a href="{{ url_for('clients') }}">View Clients</a><div>
+        <div class='input-row'><a href="{{ url_for('sites') }}">View Sites</a></div>
+        <div class='input-row'><a href="{{ url_for('orders') }}">View Orders</a></div>
+    </div>
+    <div>
+        Calendar or something goes here
+    </div>
+</div>        
+{% endblock %}

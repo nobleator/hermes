@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="{{ url_for('clients') }}">&lt Back</a>
+    <form action="{{ url_for('client', cid=client.cid) }}" method='post'>
+        <div class='input-row'>
+            <label for='cid'>CID</label>
+            <input id='cid' name='cid' type='text' value='{{ client.cid }}' readonly='readonly' required='required'>
+        </div>
+        
+        <div class='input-row'>
+            <label for='name'>Name</label>
+            <input id='name' name='name' type='text' value='{{ client.name }}' required='required'>
+        </div>
+        
+        <div class='input-row'>
+            <label for='description'>Description</label>
+            <input id='description' name='description' type='text' value='{{ client.description }}' required='required'>
+        </div>
+        
+        <div class='input-row'>
+            <input type='submit' value='Done'>
+        </div>
+    </form>
+</div>
+{% endblock %}

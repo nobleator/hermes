@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="{{ url_for('orders') }}">&lt Back</a>
+    <form action="{{ url_for('order', oid=order.oid) }}" method='post'>
+        <div class='input-row'>
+            <label for='oid'>OID</label>
+            <input id='oid' name='oid' type='text' value='{{ order.oid }}' readonly='readonly' required='required'>
+        </div>
+        
+        <div class='input-row'>
+            <label for='client'>Client</label>
+            <select id='client' name='client' required='required'>
+                {% for c in clients %}
+                    {% if c.cid == order.cid %}
+                        <option value='{{ c.cid }}' selected='selected'>{{ c.name }}</option>
+                    {% else %}
+                        <option value='{{ c.cid }}'>{{ c.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class='input-row'>
+            <label for='site'>Sites</label>
+            <select id='site' name='site' required='required'>
+                {% for s in sites %}
+                    {% if s.sid == order.sid %}
+                        <option value='{{ s.sid }}' selected='selected'>{{ s.address }}</option>
+                    {% else %}
+                        <option value='{{ s.sid }}'>{{ s.address }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+                
+        <div class='input-row'>
+            <label for='due'>Due</label>
+            <input id='due' name='due' type='text' value='{{ order.due }}' required='required'>
+        </div>
+
+        <div class='input-row'>
+            <label for='status'>Status</label>
+            <input id='status' name='status' type='text' value='{{ order.status }}' required='required'>
+        </div>
+        
+        <div class='input-row'>
+            <input type='submit' value='Done'>
+        </div>
+    </form>
+</div>
+{% endblock %}

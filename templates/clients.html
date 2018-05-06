@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="{{ url_for('index') }}">&lt Home</a>
+    <form action="{{ url_for('delete_clients') }}" method='post' id='client_form'>
+        <table>
+            <thead>
+                <tr>
+                    <th>CID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                <tr>
+                    <td>{{ client.cid }}</td>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.description }}</td>
+                    <td align='center'><input type='checkbox' name='delete_{{ client.cid }}'></td>
+                    <td><a href="{{ url_for('client', cid=client.cid) }}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td align='center'>
+                    <button class='delete' type='submit' form='client_form'>Delete Selected</button>
+                </td>
+            </tfoot>
+        </table>
+    </form>
+    <a href="{{ url_for('client', cid='new') }}">Add New</a>
+</div>
+{% endblock %}

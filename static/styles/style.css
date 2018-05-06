@@ -1,0 +1,135 @@
+/* Global styles */
+body {
+    padding: 4.5em 0;
+    background-color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+}
+div {
+    max-width: 35em;
+    margin: 0 auto;
+    padding: 2% 0;
+    position: relative;
+}
+ul {
+    margin: 0 auto;
+}
+li {
+    margin: 10px;
+}
+a {
+    text-decoration: none;
+    color: #5d8eec;
+}
+a:hover {
+    color: #000000;
+}
+
+/* Beginning of navbar styles*/
+nav {
+    width: 100%;
+    height: 3.5em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    z-index: 2;
+    box-shadow: 0px 2px 8px rgba(144, 149, 158, 0.26);
+}
+#menuToggle {
+    display: none;
+}
+#menuToggle ~ label {
+    display: block;
+    background-color: #5d8eec;
+    height: 100vh;
+    width: 3em;
+    left: 0;
+    top: 50%;
+    cursor: pointer;
+}
+#hamburger {
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    text-align: center;
+    margin-top: 10px;
+    top: 0;
+    left: 0;
+}
+#hamburger > span {
+    display: block;
+    width: 30px;
+    height: 0;
+    border: 2px solid #DFE4DE;
+    border-radius: 4px;
+    margin: 6px auto;
+    z-index: 4;
+}
+#menuToggle:checked ~ #menu {
+    transform: translateX(0%);
+}
+#menu {
+    transform: translateX(-100%);
+    transition: transform 1s;
+    position: fixed;
+    width: 200px;
+    height: 100vh;
+    color: black;
+    background-color: #5d8eec;
+    top: 3.5em;
+    left: 0;
+    z-index: 3;
+    padding: 0.5em;
+}
+#menu ul {
+    list-style-type: none;
+}
+#menu li {
+    margin: 0.5em 0;
+    color: #DFE4DE;
+}
+#menu a {
+    color: #DFE4DE;
+    text-decoration: none;
+}
+#menu a:hover li {
+    color: #000000;
+}
+#logo img {
+    position: fixed;
+    height: 30px;
+    width: auto;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+/* End of navbar styles*/
+/* Beginning of content styles */
+.header {
+    font-size: 120%;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #525353;
+}
+table {
+    border-spacing: 0.2em 1em;
+    width: 100%;
+}
+tbody, tfoot {
+    font-size: 0.8em;
+}
+.delete {
+    max-width: 6em;
+    background: none!important;
+    color: inherit;
+    border: none; 
+    padding: 0!important;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    color: #5d8eec;
+}
+.delete:hover {
+    color: #000000;
+}
+/* End of content styles */
