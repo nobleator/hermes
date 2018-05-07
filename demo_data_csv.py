@@ -24,6 +24,12 @@ with open('orders.csv', 'w') as fid:
 postgres commands:
 CREATE DATABASE hermes;
 \connect hermes
+CREATE TABLE users (uid TEXT,
+                    username TEXT,
+                    email TEXT,
+                    password TEXT,
+                    created_on TIMESTAMP);
+
 CREATE TABLE clients (cid TEXT PRIMARY KEY,
                       name TEXT,
                       description TEXT,

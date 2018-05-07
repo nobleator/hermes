@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <form action="{{ url_for('login') }}" method='post'>
+        <div class='input-row'>
+            <label for='username'>Username:</label>
+            <input id='username' name='username' type='text' value='{{ username }}' required='required'>
+        <div>
+        <div class='input-row'>
+            <label for='password'>Password:</label>
+            <input id='password' name='password' type='password' value='{{ password }}' required='required'>
+        </div>
+        <div class='input-row'>
+            <input type='submit' value='Done'>
+        </div>
+    </form>
+</div>
+{% endblock %}

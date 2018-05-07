@@ -1,14 +1,38 @@
 import flask as fk
 from flask_sqlalchemy import SQLAlchemy
+import flask_login as fk_lg
+import datetime
+import bcrypt
 
 
 app = fk.Flask(__name__)
+app.secret_key = 'this-is-a-terrible-secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/hermes'
 db = SQLAlchemy(app)
+log_man = fk_lg.LoginManager(app)
+log_man.login_view = 'login'
 
 # Models ######################################################################
 # TODO: Singular vs plural table names? 'Order' is an invalid name in Postgres.
 # TODO: Non-sequential IDs
+
+
+class User(fk_lg.UserMixin, db.Model):
+    __tablename__ = 'users'
+    uid = db.Column(db.String(128), primary_key=True)
+    username = db.Column(db.String(128))
+    email = db.Column(db.String(128))
+    password = db.Column(db.Binary(60), nullable=False)
+    created_on = db.Column(db.DateTime(), nullable=False)
+
+    def get_id(self):
+        return self.uid
+
+    def set_pw(self, pw):
+        self.password = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
+
+    def check_pw(self, pw):
+        return bcrypt.checkpw(pw.encode('utf8'), self.password)
 
 
 class Client(db.Model):
@@ -71,21 +95,50 @@ class Order(db.Model):
 ###############################################################################
 
 # Routes ######################################################################
-# TODO: Orders and Sites
+# TODO: New user account creation
 
 
 @app.route('/')
+@app.route('/index')
+@fk_lg.login_required
 def index():
     return fk.render_template('index.html')
 
 
+@log_man.user_loader
+def load_user(uid):
+    return User.query.get(uid)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if fk_lg.current_user.is_authenticated:
+        return fk.redirect(fk.url_for('index'))
+    if fk.request.method == 'POST':
+        print(fk.request.form)
+        u = User.query.filter_by(username=fk.request.form['username']).first()
+        if not u or not u.check_pw(fk.request.form['password']):
+            return fk.redirect(fk.url_for('login'))
+        fk_lg.login_user(u)
+        return fk.redirect(fk.url_for('index'))
+    return fk.render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    fk_lg.logout_user()
+    return fk.redirect(fk.url_for('index'))
+
+
 @app.route('/clients/')
+@fk_lg.login_required
 def clients():
     res = [c.to_dict() for c in Client.query.filter_by(deleted=False).all()]
     return fk.render_template('clients.html', clients=res)
 
 
 @app.route('/client/<cid>', methods=['GET', 'POST'])
+@fk_lg.login_required
 def client(cid):
     if fk.request.method == 'GET':
         if cid == 'new':
@@ -118,6 +171,7 @@ def client(cid):
 
 
 @app.route('/delete_clients/', methods=['POST'])
+@fk_lg.login_required
 def delete_clients():
     ids_to_delete = [k.split('_')[1] for k in fk.request.form.keys()]
     for c in Client.query.filter(Client.cid.in_(ids_to_delete)).all():
@@ -127,12 +181,14 @@ def delete_clients():
 
 
 @app.route('/sites/')
+@fk_lg.login_required
 def sites():
     res = [s.to_dict() for s in Site.query.filter_by(deleted=False).all()]
     return fk.render_template('sites.html', sites=res)
 
 
 @app.route('/site/<sid>', methods=['GET', 'POST'])
+@fk_lg.login_required
 def site(sid):
     if fk.request.method == 'GET':
         if sid == 'new':
@@ -161,6 +217,7 @@ def site(sid):
 
 
 @app.route('/delete_sites/', methods=['POST'])
+@fk_lg.login_required
 def delete_sites():
     ids_to_delete = [k.split('_')[1] for k in fk.request.form.keys()]
     for s in Site.query.filter(Site.sid.in_(ids_to_delete)).all():
@@ -170,12 +227,14 @@ def delete_sites():
 
 
 @app.route('/orders/')
+@fk_lg.login_required
 def orders():
     res = [o.to_dict() for o in Order.query.filter_by(deleted=False).all()]
     return fk.render_template('orders.html', orders=res)
 
 
 @app.route('/order/<oid>', methods=['GET', 'POST'])
+@fk_lg.login_required
 def order(oid):
     if fk.request.method == 'GET':
         if oid == 'new':
@@ -224,6 +283,7 @@ def order(oid):
 
 
 @app.route('/delete_orders/', methods=['POST'])
+@fk_lg.login_required
 def delete_orders():
     ids_to_delete = [k.split('_')[1] for k in fk.request.form.keys()]
     for o in Order.query.filter(Order.oid.in_(ids_to_delete)).all():
@@ -269,6 +329,14 @@ def reinitialize_demo_db():
                           status=status,
                           deleted=False)
         db.session.add(new_order)
+
+    pw = 'p@ssw0rd'.encode('utf8')
+    demo_user = User(uid='1',
+                     username='Bugs Bunny',
+                     email='thisisfake@gmail.com',
+                     password=bcrypt.hashpw(pw, bcrypt.gensalt()),
+                     created_on=str(datetime.datetime.utcnow()))
+    db.session.add(demo_user)
     db.session.commit()
     return None
 ###############################################################################
