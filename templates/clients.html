@@ -6,7 +6,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>CID</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Delete</th>
@@ -15,7 +14,6 @@
             <tbody>
                 {% for client in clients %}
                 <tr>
-                    <td>{{ client.cid }}</td>
                     <td>{{ client.name }}</td>
                     <td>{{ client.description }}</td>
                     <td align='center'><input type='checkbox' name='delete_{{ client.cid }}'></td>
@@ -26,13 +24,12 @@
             <tfoot>
                 <td></td>
                 <td></td>
-                <td></td>
                 <td align='center'>
                     <button class='delete' type='submit' form='client_form'>Delete Selected</button>
                 </td>
             </tfoot>
         </table>
     </form>
-    <a href="{{ url_for('client', cid='new') }}">Add New</a>
+    <a href="{{ url_for('client', cid='new') }}">Add New Client</a>
 </div>
 {% endblock %}

@@ -6,7 +6,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>OID</th>
                     <th>Client</th>
                     <th>Site</th>
                     <th>Due</th>
@@ -17,7 +16,6 @@
             <tbody>
                 {% for order in orders %}
                 <tr>
-                    <td>{{ order.oid }}</td>
                     <td>{{ order.client }}</td>
                     <td>{{ order.site }}</td>
                     <td>{{ order.due }}</td>
@@ -32,13 +30,12 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
                 <td align='center'>
                     <button class='delete' type='submit' form='order_form'>Delete Selected</button>
                 </td>
             </tfoot>
         </table>
     </form>
-    <a href="{{ url_for('order', oid='new') }}">Add New</a>
+    <a href="{{ url_for('order', oid='new') }}">Add New Order</a>
 </div>
 {% endblock %}

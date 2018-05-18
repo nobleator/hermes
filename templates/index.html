@@ -1,14 +1,62 @@
 {% extends 'base.html' %}
 {% block content %}
 <div>
-    <div>
-        <div class='input-row'><a href="{{ url_for('logout') }}">Log Out</a></div>
-        <div class='input-row'><a href="{{ url_for('clients') }}">View Clients</a><div>
-        <div class='input-row'><a href="{{ url_for('sites') }}">View Sites</a></div>
-        <div class='input-row'><a href="{{ url_for('orders') }}">View Orders</a></div>
+    <div class='link-row'>
+        <a href="{{ url_for('clients') }}">Clients</a>
+        <a href="{{ url_for('sites') }}">Sites</a>
+        <a href="{{ url_for('orders') }}">Orders</a>
+        <a href="{{ url_for('parts') }}">Parts</a>
+        <a href="{{ url_for('index') }}">Schedule Deliveries</a>
     </div>
     <div>
-        Calendar or something goes here
+        {% if restock %}
+        <div><b>Parts Missing, Restock Required</b></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Part</th>
+                    <th align='center'>Number Needed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for part in restock %}
+                <tr>
+                    <td>{{ part.name }}</td>
+                    <td align='center'>{{ part.number }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div><b>No Restock Required</b></div>
+        {% endif %}
+        <div><b>Order Summary</b></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Type</th>
+                    <th align='center'>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Orders placed</td>
+                    <td align='center'>{{ summary.placed }}</td>
+                </tr>
+                <tr>
+                    <td>Delivery scheduled</td>
+                    <td align='center'>{{ summary.scheduled }}</td>
+                </tr>
+                <tr>
+                    <td>Driver dispatched</td>
+                    <td align='center'>{{ summary.dispatched }}</td>
+                </tr>
+                <tr>
+                    <td>Orders completed</td>
+                    <td align='center'>{{ summary.completed }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>        
 {% endblock %}

@@ -9,21 +9,8 @@
 
 <body>
     <nav>
-        <input id='menuToggle' type="checkbox"/>
-        <label for='menuToggle'>
-            <div id='hamburger'>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </label>
-        <ul id='menu'>
-            <a href="{{ url_for('index') }}"><li>Home</li></a>
-            <a href="{{ url_for('orders') }}"><li>Orders</li></a>
-            <a href="{{ url_for('clients') }}"><li>Clients</li></a>
-            <a href="{{ url_for('sites') }}"><li>Sites</li></a>
-        </ul>
         <div id='logo'><img src="{{ url_for('static',filename='images/hermes_logo.png') }}"></div>
+        <div id='logout'><a href="{{ url_for('logout') }}">Log Out</a></div>
     </nav>
     {% block content %}{% endblock %}
 </body>

@@ -3,9 +3,9 @@
 <div>
     <a href="{{ url_for('sites') }}">&lt Back</a>
     <form action="{{ url_for('site', sid=site.sid) }}" method='post'>
-        <div class='input-row'>
+        <div class='input-row hide'>
             <label for='sid'>SID</label>
-            <input id='sid' name='sid' type='text' value='{{ site.sid }}' readonly='readonly' required='required'>
+            <input id='sid' name='sid' type='number' value='{{ site.sid }}' readonly='readonly' required='required'>
         </div>
         
         <div class='input-row'>

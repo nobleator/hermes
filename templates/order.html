@@ -1,16 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
 <div>
+    <script>
+    function getTotalPrice() {
+        var rows = document.querySelectorAll('#parts-table > tbody > tr');
+        var total = 0
+        for (var indx = 0; indx < rows.length; indx++) {
+            var cells = rows[indx].getElementsByTagName('td');
+            var q = parseFloat(cells[2].getElementsByTagName('input')[0].value);
+            var p = parseFloat(cells[3].getElementsByTagName('input')[0].value);
+            total += q * p;
+        }
+        document.getElementById('order-total').innerText = total;
+    }
+    document.addEventListener('input', getTotalPrice);
+    window.onload = getTotalPrice;
+    </script>
     <a href="{{ url_for('orders') }}">&lt Back</a>
     <form action="{{ url_for('order', oid=order.oid) }}" method='post'>
-        <div class='input-row'>
+        <div class='input-row hide'>
             <label for='oid'>OID</label>
-            <input id='oid' name='oid' type='text' value='{{ order.oid }}' readonly='readonly' required='required'>
+            <input id='oid' name='oid' type='number' value='{{ order.oid }}' readonly='readonly' required='required' class='small'>
         </div>
         
         <div class='input-row'>
             <label for='client'>Client</label>
-            <select id='client' name='client' required='required'>
+            <select id='client' name='client' required='required' class='medium'>
                 {% for c in clients %}
                     {% if c.cid == order.cid %}
                         <option value='{{ c.cid }}' selected='selected'>{{ c.name }}</option>
@@ -36,12 +51,41 @@
                 
         <div class='input-row'>
             <label for='due'>Due</label>
-            <input id='due' name='due' type='text' value='{{ order.due }}' required='required'>
+            <input id='due' name='due' type='date' value='{{ order.due }}' required='required'>
         </div>
 
         <div class='input-row'>
             <label for='status'>Status</label>
-            <input id='status' name='status' type='text' value='{{ order.status }}' required='required'>
+            <select id='status' name='status' required='required'>
+                <option value='Order placed' selected='selected'>Order placed</option>
+                <option value='Delivery scheduled'>Delivery scheduled</option>
+                <option value='Driver dispatched'>Driver dispatched</option>
+                <option value='Order completed'>Order complete</option>
+            </select>
+        </div>
+        <div>
+            <p class='inline'>Order total price: $</p>
+            <p id='order-total' class='inline'>0.00</p>
+        </div>
+        <div class='input-row scroll-table'>
+            <table id='parts-table'>
+                <thead>
+                    <th>Part Name</th>
+                    <th>In Stock</th>
+                    <th>In This Order</th>
+                    <th>Price</th>
+                </thead>
+                <tbody>
+                    {% for p in parts %}
+                    <tr>
+                        <td>{{ p.name }}</td>
+                        <td>{{ p.stock }}</td>
+                        <td><input name='{{ p.pid }}_current' type='number' value='{{ p.current }}' required='required'></td>
+                        <td><input name='{{ p.pid }}_price' type='number' step='0.01' value='{{ p.price }}' required='required'></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         
         <div class='input-row'>

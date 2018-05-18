@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="{{ url_for('index') }}">&lt Home</a>
+    <form action="{{ url_for('delete_parts') }}" method='post' id='part_form'>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Units</th>
+                    <th>Stock</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for part in parts %}
+                <tr>
+                    <td>{{ part.name }}</td>
+                    <td>{{ part.description }}</td>
+                    <td>{{ part.units }}</td>
+                    <td>{{ part.stock }}</td>
+                    <td align='center'><input type='checkbox' name='delete_{{ part.pid }}'></td>
+                    <td><a href="{{ url_for('part', pid=part.pid) }}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td align='center'>
+                    <button class='delete' type='submit' form='part_form'>Delete Selected</button>
+                </td>
+            </tfoot>
+        </table>
+    </form>
+    <a href="{{ url_for('part', pid='new') }}">Add New Part</a>
+</div>
+{% endblock %}

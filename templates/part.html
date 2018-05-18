@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="{{ url_for('parts') }}">&lt Back</a>
+    <form action="{{ url_for('part', pid=part.pid) }}" method='post'>
+        <div class='input-row hide'>
+            <label for='pid'>PID</label>
+            <input id='pid' name='pid' type='number' value='{{ part.pid }}' readonly='readonly' required='required' class='small'>
+        </div>
+        
+        <div class='input-row'>
+            <label for='name'>Name</label>
+            <input id='name' name='name' type='text' value='{{ part.name }}' required='required' class='large'>
+        </div>
+        
+        <div class='input-row'>
+            <label for='description'>Description</label>
+            <input id='description' name='description' type='text' value='{{ part.description }}' required='required' class='large'>
+        </div>
+
+        <div class='input-row'>
+            <label for='units'>Units</label>
+            <input id='units' name='units' type='text' value='{{ part.units }}' required='required' class='medium'>
+        </div>
+
+        <div class='input-row'>
+            <label for='stock`'>Stock</label>
+            <input id='stock' name='stock' type='number' value='{{ part.stock }}' required='required' class='small'>
+        </div>
+        
+        <div class='input-row'>
+            <input type='submit' value='Done'>
+        </div>
+    </form>
+</div>
+{% endblock %}

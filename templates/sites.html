@@ -6,7 +6,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>CID</th>
                     <th>Address</th>
                     <th>Delete</th>
                 </tr>
@@ -14,7 +13,6 @@
             <tbody>
                 {% for site in sites %}
                 <tr>
-                    <td>{{ site.sid }}</td>
                     <td>{{ site.address }}</td>
                     <td align='center'><input type='checkbox' name='delete_{{ site.sid }}'></td>
                     <td><a href="{{ url_for('site', sid=site.sid) }}">Edit</a></td>
@@ -23,13 +21,12 @@
             </tbody>
             <tfoot>
                 <td></td>
-                <td></td>
                 <td align='center'>
                     <button class='delete' type='submit' form='site_form'>Delete Selected</button>
                 </td>
             </tfoot>
         </table>
     </form>
-    <a href="{{ url_for('site', sid='new') }}">Add New</a>
+    <a href="{{ url_for('site', sid='new') }}">Add New Site</a>
 </div>
 {% endblock %}
