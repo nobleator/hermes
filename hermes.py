@@ -8,8 +8,16 @@ import json
 
 
 app = fk.Flask(__name__)
-app.secret_key = 'this-is-a-terrible-secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/hermes'
+try:
+    app.config.from_pyfile('config.py')
+except FileNotFoundError:
+    # For Heroku, use environment variables
+    print('No configuration file present, trying environment variables')
+    import os
+
+    app.config['ENV'] = os.environ['ENV']
+    app.config['SECRET_KEY'] = os.environ['FLASK_KEY']
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DB_URI']
 db = SQLAlchemy(app)
 log_man = fk_lg.LoginManager(app)
 log_man.login_view = 'login'
@@ -591,9 +599,10 @@ def reinitialize_demo_db():
 
 
 if __name__ == '__main__':
-    # if app.config['SQLALCHEMY_DATABASE_URI'] == 'postgresql://localhost:5432/hermes':
-    #     app.run(debug=True)
-    # else:
-    #     app.run(debug=False)
+    print('Environment type:', app.config['ENV'])
+    if app.config['ENV'] == 'development':
+        app.run(debug=True)
+    else:
+        app.run(debug=False)
     # To test on other devices, use: http://10.0.0.124:5000
-    app.run(host='0.0.0.0', port=5000)
+    # app.run(host='0.0.0.0', port=5000)
