@@ -19,7 +19,7 @@
                     <td>{{ client.name }}</td>
                     <td>{{ client.description }}</td>
                     <td align='center'><input type='checkbox' name='delete_{{ client.cid }}'></td>
-                    <td><a href="{{ url_for('client', cid=client.cid) }}">Edit</a></td>
+                    <td><a href="{{ url_for('client', cid=client.cid) }}">View/Edit</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

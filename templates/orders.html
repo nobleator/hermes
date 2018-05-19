@@ -23,7 +23,7 @@
                     <td>{{ order.due }}</td>
                     <td>{{ order.status }}</td>
                     <td align='center'><input type='checkbox' name='delete_{{ order.oid }}'></td>
-                    <td><a href="{{ url_for('order', oid=order.oid) }}">Edit</a></td>
+                    <td><a href="{{ url_for('order', oid=order.oid) }}">View/Edit</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

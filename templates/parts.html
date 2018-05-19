@@ -23,7 +23,7 @@
                     <td>{{ part.units }}</td>
                     <td>{{ part.stock }}</td>
                     <td align='center'><input type='checkbox' name='delete_{{ part.pid }}'></td>
-                    <td><a href="{{ url_for('part', pid=part.pid) }}">Edit</a></td>
+                    <td><a href="{{ url_for('part', pid=part.pid) }}">View/Edit</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ site.address }}</td>
                     <td align='center'><input type='checkbox' name='delete_{{ site.sid }}'></td>
-                    <td><a href="{{ url_for('site', sid=site.sid) }}">Edit</a></td>
+                    <td><a href="{{ url_for('site', sid=site.sid) }}">View/Edit</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
