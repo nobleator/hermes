@@ -31,7 +31,10 @@ class User(fk_lg.UserMixin, db.Model):
     username = db.Column(db.String(128))
     email = db.Column(db.String(128))
     password = db.Column(db.Binary(60), nullable=False)
-    created_on = db.Column(db.DateTime(), nullable=False)
+    time_created = db.Column(db.DateTime(timezone=True),
+                             server_default=db.func.now())
+    time_modified = db.Column(db.DateTime(timezone=True),
+                              onupdate=db.func.now())
 
     def get_id(self):
         return self.uid
@@ -50,6 +53,10 @@ class Client(db.Model):
     name = db.Column(db.String(128))
     description = db.Column(db.String(128))
     deleted = db.Column(db.Boolean)
+    time_created = db.Column(db.DateTime(timezone=True),
+                             server_default=db.func.now())
+    time_modified = db.Column(db.DateTime(timezone=True),
+                              onupdate=db.func.now())
 
     def __repr__(self):
         return '<{0}, {1}, {2}>'.format(self.cid, self.name, self.description)
@@ -67,6 +74,10 @@ class Site(db.Model):
     lat = db.Column(db.Numeric(precision=5))
     lon = db.Column(db.Numeric(precision=5))
     deleted = db.Column(db.Boolean)
+    time_created = db.Column(db.DateTime(timezone=True),
+                             server_default=db.func.now())
+    time_modified = db.Column(db.DateTime(timezone=True),
+                              onupdate=db.func.now())
 
     def __repr__(self):
         return '<{0}, {1}>'.format(self.sid, self.address)
@@ -85,6 +96,10 @@ class Order(db.Model):
     status = db.Column(db.String(128))
     deleted = db.Column(db.Boolean)
     order_to_part = db.relationship('OrderToPart')
+    time_created = db.Column(db.DateTime(timezone=True),
+                             server_default=db.func.now())
+    time_modified = db.Column(db.DateTime(timezone=True),
+                              onupdate=db.func.now())
 
     def __repr__(self):
         return '<{0}, {1}, {2}, {3}, {4}>'.format(self.oid,
@@ -114,6 +129,10 @@ class Part(db.Model):
     stock = db.Column(db.Integer)
     deleted = db.Column(db.Boolean)
     order_to_part = db.relationship('OrderToPart')
+    time_created = db.Column(db.DateTime(timezone=True),
+                             server_default=db.func.now())
+    time_modified = db.Column(db.DateTime(timezone=True),
+                              onupdate=db.func.now())
 
     def __repr__(self):
         return '<{0}, {1}>'.format(self.pid, self.name)
@@ -132,6 +151,10 @@ class OrderToPart(db.Model):
     quantity = db.Column(db.Integer)
     price = db.Column(db.Numeric(precision=2))
     deleted = db.Column(db.Boolean)
+    time_created = db.Column(db.DateTime(timezone=True),
+                             server_default=db.func.now())
+    time_modified = db.Column(db.DateTime(timezone=True),
+                              onupdate=db.func.now())
 
     def __repr__(self):
         return '<{0}, {1}, {2}, {3}, {4}>'.format(self.otpid,
@@ -588,11 +611,9 @@ def reinitialize_demo_db():
     pw = 'password'.encode('utf8')
     demo_user = User(username='mscott',
                      email='mscott@dundermifflin.com',
-                     password=bcrypt.hashpw(pw, bcrypt.gensalt()),
-                     created_on=str(dt.datetime.utcnow()))
+                     password=bcrypt.hashpw(pw, bcrypt.gensalt()))
     db.session.add(demo_user)
     db.session.commit()
-    return None
 ###############################################################################
 
 
