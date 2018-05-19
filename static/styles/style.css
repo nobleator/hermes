@@ -98,10 +98,13 @@ td {
 .scroll-table tbody::-webkit-scrollbar-thumb {
     border-radius: 8px;
     border: 2px solid white;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 .scroll-table tbody td, .scroll-table thead th {
     width: 20%;
+}
+.scroll-table tbody tr:nth-child(even) {
+    background-color: rgba(144, 149, 158, 0.15);
 }
 thead {
     border-bottom: 1.5px solid #5d8eec;
