@@ -17,7 +17,7 @@ except FileNotFoundError:
 
     app.config['ENV'] = os.environ['ENV']
     app.config['SECRET_KEY'] = os.environ['FLASK_KEY']
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DB_URI']
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 log_man = fk_lg.LoginManager(app)
 log_man.login_view = 'login'
