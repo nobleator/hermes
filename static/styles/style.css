@@ -103,7 +103,7 @@ td {
 .scroll-table tbody td, .scroll-table thead th {
     width: 20%;
 }
-.scroll-table tbody tr:nth-child(even) {
+table tbody tr:nth-child(even) {
     background-color: rgba(144, 149, 158, 0.15);
 }
 thead {
