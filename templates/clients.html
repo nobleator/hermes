@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <div>
-    <a href="{{ url_for('index') }}">&lt Home</a>
+    <div>
+        <a href="{{ url_for('index') }}">&lt Home</a>
+    </div>
     <form action="{{ url_for('delete_clients') }}" method='post' id='client_form'>
         <table>
             <thead>
