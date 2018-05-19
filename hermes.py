@@ -180,7 +180,6 @@ def login():
     if fk_lg.current_user.is_authenticated:
         return fk.redirect(fk.url_for('index'))
     if fk.request.method == 'POST':
-        print(fk.request.form)
         u = User.query.filter_by(username=fk.request.form['username']).first()
         if not u or not u.check_pw(fk.request.form['password']):
             return fk.redirect(fk.url_for('login'))
@@ -406,7 +405,6 @@ def order(oid):
                                                    oid=res['oid']).all():
                 p['current'] = otp.quantity
                 p['price'] = otp.price
-        print(res['due'])
         return fk.render_template('order.html', order=res,
                                   clients=c_opts, sites=s_opts, parts=p_opts)
     else:

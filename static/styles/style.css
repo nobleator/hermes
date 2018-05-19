@@ -134,4 +134,13 @@ tbody, tfoot {
 .large {
     width: 20em;
 }
+#search-and-filter {
+    margin: 1em 0;
+}
+#search {
+    position: absolute;
+    left: 0;
+    font-size: 1.1em;
+    height: 1.2em;
+}
 /* End of content styles */

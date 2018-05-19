@@ -15,15 +15,35 @@
     }
     document.addEventListener('input', getTotalPrice);
     window.onload = getTotalPrice;
+    function partSearch() {
+        // Declare variables 
+        var input, filter, table, tr, td, i;
+        input = document.getElementById('search');
+        filter = input.value.toUpperCase();
+        table = document.getElementById('parts-table');
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            } 
+        }
+    }
     </script>
     <a href="{{ url_for('orders') }}">&lt Back</a>
     <form action="{{ url_for('order', oid=order.oid) }}" method='post'>
-        <div class='input-row hide'>
+        <div class='hide'>
             <label for='oid'>OID</label>
             <input id='oid' name='oid' type='number' value='{{ order.oid }}' readonly='readonly' required='required' class='small'>
         </div>
         
-        <div class='input-row'>
+        <div>
             <label for='client'>Client</label>
             <select id='client' name='client' required='required' class='medium'>
                 {% for c in clients %}
@@ -36,7 +56,7 @@
             </select>
         </div>
 
-        <div class='input-row'>
+        <div>
             <label for='site'>Sites</label>
             <select id='site' name='site' required='required'>
                 {% for s in sites %}
@@ -49,12 +69,12 @@
             </select>
         </div>
                 
-        <div class='input-row'>
+        <div>
             <label for='due'>Due</label>
             <input id='due' name='due' type='date' value='{{ order.due }}' required='required'>
         </div>
 
-        <div class='input-row'>
+        <div>
             <label for='status'>Status</label>
             <select id='status' name='status' required='required'>
                 <option value='Order placed' selected='selected'>Order placed</option>
@@ -63,11 +83,17 @@
                 <option value='Order completed'>Order complete</option>
             </select>
         </div>
+        
         <div>
             <p class='inline'>Order total price: $</p>
             <p id='order-total' class='inline'>0.00</p>
         </div>
-        <div class='input-row scroll-table'>
+
+        <div id='search-and-filter'>
+            <input type="text" id="search" onkeyup="partSearch()" placeholder="Search part names">
+        </div>
+
+        <div class='scroll-table'>
             <table id='parts-table'>
                 <thead>
                     <th>Part Name</th>
